@@ -1,0 +1,73 @@
+package com.hms.login.page;
+
+import java.util.List;
+
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.How;
+import org.openqa.selenium.support.PageFactory;
+
+public class HMSLoginPageWithPageFactory {
+	
+	WebDriver driver;
+
+	@FindBy(name = "username")
+	WebElement userName;
+
+	@FindBy(how = How.NAME, using = "password")
+	WebElement password;
+
+	@FindBy(how = How.XPATH, using = "//input[@name='submit']")
+	WebElement submit;
+
+	@FindBy(linkText = "Logout")
+	WebElement logout;
+	
+	@FindBy(xpath = "//select")
+	List<WebElement> comboBoxes;
+	
+	@FindBy(linkText = "Registration")
+	WebElement registrationLink;
+	
+	@FindBy(linkText = "Emergency Registration")
+	WebElement emerRegistrationLink;
+	
+	
+
+	public HMSLoginPageWithPageFactory(WebDriver driver) {
+		this.driver = driver;
+		PageFactory.initElements(driver, this);
+		System.out.println("HMSLoginWithPageFactory constructor..");
+	}
+
+	public String login(String user, String pwd) {
+		userName.sendKeys(user);
+		password.sendKeys(pwd);
+		submit.click();
+		String str = "";
+		str = logout.getText();
+		System.out.println(str);
+		return str;
+		
+	}
+	
+	public int comboBoxCount() {
+		registrationLink.click();
+		emerRegistrationLink.click();
+		int count = comboBoxes.size();
+		return count;
+	}	
+	
+	public boolean logoutButtonIsVisible() {
+		return logout.isDisplayed();
+		
+	}
+	
+	public void logout() {
+		logout.click();
+		driver.quit();
+		
+	}
+
+}
